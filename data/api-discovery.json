@@ -1,0 +1,155 @@
+{
+  "checked_at_utc": "2026-10-14T10:14:41.040361+00:00",
+  "checks": {
+    "status": {
+      "http_status": 200,
+      "results": 0,
+      "errors": [],
+      "remaining": "100",
+      "subscription": {
+        "plan": "Free",
+        "end": "2027-10-14T00:00:00+00:00",
+        "active": true
+      },
+      "requests": {
+        "current": 0,
+        "limit_day": 100
+      }
+    },
+    "leagues": {
+      "http_status": 200,
+      "results": 1248,
+      "errors": [],
+      "remaining": "98",
+      "sample_leagues": [
+        {
+          "name": "Euro Championship",
+          "country": "World",
+          "seasons": [
+            2012,
+            2016,
+            2020,
+            2024
+          ]
+        },
+        {
+          "name": "Confederations Cup",
+          "country": "World",
+          "seasons": [
+            2009,
+            2013,
+            2017
+          ]
+        },
+        {
+          "name": "Ligue 2",
+          "country": "France",
+          "seasons": [
+            2023,
+            2024,
+            2025,
+            2026
+          ]
+        },
+        {
+          "name": "Ligue 1",
+          "country": "France",
+          "seasons": [
+            2023,
+            2024,
+            2025,
+            2026
+          ]
+        },
+        {
+          "name": "Jupiler Pro League",
+          "country": "Belgium",
+          "seasons": [
+            2023,
+            2024,
+            2025,
+            2026
+          ]
+        },
+        {
+          "name": "Serie A",
+          "country": "Brazil",
+          "seasons": [
+            2023,
+            2024,
+            2025,
+            2026
+          ]
+        },
+        {
+          "name": "Premier League",
+          "country": "England",
+          "seasons": [
+            2023,
+            2024,
+            2025,
+            2026
+          ]
+        },
+        {
+          "name": "Bundesliga",
+          "country": "Germany",
+          "seasons": [
+            2023,
+            2024,
+            2025,
+            2026
+          ]
+        }
+      ]
+    },
+    "fixtures_today": {
+      "http_status": 200,
+      "results": 246,
+      "errors": [],
+      "remaining": "97",
+      "sample_fixtures": [
+        {
+          "home": "CS Cartagines",
+          "away": "Puntarenas FC",
+          "league": "Primera Divisi\u00f3n"
+        },
+        {
+          "home": "Portmore United",
+          "away": "Violette AC",
+          "league": "CONCACAF Caribbean Club Championship"
+        },
+        {
+          "home": "Panama W",
+          "away": "New Zealand W",
+          "league": "Friendlies Women"
+        },
+        {
+          "home": "Boca Juniors",
+          "away": "Vasco DA Gama",
+          "league": "CONMEBOL Sudamericana"
+        },
+        {
+          "home": "Mexico W",
+          "away": "Jamaica W",
+          "league": "Friendlies Women"
+        },
+        {
+          "home": "Millonarios",
+          "away": "Once Caldas",
+          "league": "Primera A"
+        },
+        {
+          "home": "San Carlos",
+          "away": "Inter San Carlos",
+          "league": "Primera Divisi\u00f3n"
+        },
+        {
+          "home": "Deren",
+          "away": "Erchim",
+          "league": "Premier League"
+        }
+      ]
+    }
+  }
+}
