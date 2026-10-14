@@ -2,7 +2,6 @@
 import json
 import os
 import sys
-import time
 import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta, timezone
@@ -10,7 +9,6 @@ from datetime import datetime, timedelta, timezone
 BASE = "https://v3.football.api-sports.io"
 KEY = os.environ.get("API_SPORTS_KEY", "").strip()
 OUTPUT = "data/global-soccer.json"
-DAYS = 7
 
 if not KEY:
     sys.exit("Missing API_SPORTS_KEY GitHub secret")
@@ -24,17 +22,20 @@ def fetch_fixtures(day):
             "Accept": "application/json"
         }
     )
+
     with urllib.request.urlopen(request, timeout=45) as response:
         data = json.load(response)
-        remaining = response.headers.get("x-ratelimit-requests-remaining")
-        print(f"{day}: daily requests remaining = {remaining}")
+        remaining = response.headers.get(
+            "x-ratelimit-requests-remaining"
+        )
+        print(f"{day}: requests remaining = {remaining}")
 
     errors = data.get("errors")
     if errors:
         raise RuntimeError(f"API error for {day}: {errors}")
 
     if not isinstance(data.get("response"), list):
-        raise RuntimeError(f"Invalid API response for {day}")
+        raise RuntimeError("Invalid fixture response")
 
     return data["response"]
 
@@ -67,17 +68,20 @@ def normalize(item):
 now = datetime.now(timezone.utc)
 today = now.date()
 
-# Keep the last successful snapshot if any request fails.
-# Seven dates = seven API requests per successful run.
+# Free API access currently allows today and tomorrow.
+# Two requests per run.
+days = [
+    today.isoformat(),
+    (today + timedelta(days=1)).isoformat()
+]
+
 fixtures = []
-for offset in range(DAYS):
-    day = (today + timedelta(days=offset)).isoformat()
+
+for day in days:
     print("Fetching", day)
     records = fetch_fixtures(day)
     fixtures.extend(normalize(x) for x in records)
-    time.sleep(0.25)
 
-# Deduplicate using provider fixture IDs.
 unique = {}
 for match in fixtures:
     if match["id"] is not None:
@@ -85,43 +89,47 @@ for match in fixtures:
 
 fixtures = sorted(
     unique.values(),
-    key=lambda x: (x.get("kickoff") or "", x.get("league") or "")
+    key=lambda x: (
+        x.get("kickoff") or "",
+        x.get("league") or ""
+    )
 )
 
-# Retain previously calculated domestic scoring data.
-existing = "data/soccer-current.json"
+if not fixtures:
+    raise RuntimeError(
+        "No fixtures returned. Previous data preserved."
+    )
+
 teams = []
 domestic_source = None
+existing = "data/soccer-current.json"
+
 if os.path.exists(existing):
     with open(existing, encoding="utf-8") as file:
         previous = json.load(file)
+
     teams = previous.get("teams", [])
     domestic_source = previous.get("source")
 
 output = {
     "generated_utc": now.isoformat(),
-    "window_start": today.isoformat(),
-    "window_end": (today + timedelta(days=DAYS - 1)).isoformat(),
+    "window_start": days[0],
+    "window_end": days[-1],
     "fixture_count": len(fixtures),
     "league_count": len(set(
-        (m["country"], m["league_id"]) for m in fixtures
+        (m["country"], m["league_id"])
+        for m in fixtures
     )),
     "fixtures": fixtures,
     "domestic_teams": teams,
     "domestic_source": domestic_source,
     "limitations": [
-        "Fixture discovery does not imply team-stat coverage.",
-        "Domestic scoring statistics may not include cup games.",
-        "Market prices and lineups are not verified.",
-        "Historical scoring rates are not calibrated predictions."
+        "Free API fixture dates are restricted.",
+        "Current coverage is today and tomorrow.",
+        "Not all teams have current-season statistics.",
+        "Market prices and lineups are not verified."
     ]
 }
-
-if not fixtures:
-    raise RuntimeError(
-        "API returned zero fixtures across seven days; "
-        "refusing to overwrite previous data."
-    )
 
 os.makedirs("data", exist_ok=True)
 temporary = OUTPUT + ".tmp"
@@ -131,10 +139,10 @@ with open(temporary, "w", encoding="utf-8") as file:
 
 os.replace(temporary, OUTPUT)
 
-print("=" * 48)
+print("=" * 45)
 print("GLOBAL SOCCER DISCOVERY COMPLETE")
 print("Fixtures:", output["fixture_count"])
 print("Competitions:", output["league_count"])
-print("Domestic teams loaded:", len(teams))
-print("Dates:", output["window_start"], "to", output["window_end"])
-print("=" * 48)
+print("Domestic teams:", len(teams))
+print("Dates:", days[0], "to", days[-1])
+print("=" * 45)
