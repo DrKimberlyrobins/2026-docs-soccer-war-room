@@ -1,0 +1,43 @@
+
+name: Global Soccer War Room
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "10 10 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: global-soccer-war-room
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Discover worldwide fixtures
+        env:
+          API_SPORTS_KEY: ${{ secrets.API_SPORTS_KEY }}
+        run: python scripts/global_soccer.py
+
+      - name: Commit refreshed data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/global-soccer.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Update global soccer fixtures"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
