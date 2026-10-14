@@ -21,7 +21,7 @@ header{
 }
 header h1{margin:0;color:var(--gold);font-size:27px}
 main{max-width:1250px;margin:auto;padding:16px}
-h2{color:var(--gold)}
+h2,h3{color:var(--gold)}
 small,.muted{color:var(--muted)}
 nav,.filters,.actions{
  display:flex;flex-wrap:wrap;gap:9px;margin:15px 0
@@ -74,21 +74,18 @@ input{flex:1;min-width:170px}
 .full{color:var(--green)}
 .partial{color:var(--gold)}
 .missing{color:#ff9c85}
+.historical{color:#86c6ff}
 .tablewrap{overflow:auto}
 table{width:100%;border-collapse:collapse;min-width:650px}
 th,td{padding:10px;border-bottom:1px solid #39536c;text-align:left}
 th{color:var(--gold)}
-.name{
- background:none;border:0;color:white;
- text-decoration:underline;text-decoration-color:var(--gold)
-}
 #overlay{
  display:none;position:fixed;inset:0;
  background:#000c;align-items:center;
  justify-content:center;padding:12px;z-index:10
 }
 #modal{
- width:100%;max-width:850px;max-height:90vh;
+ width:100%;max-width:900px;max-height:90vh;
  overflow:auto;background:#142840;
  border:2px solid var(--gold);
  border-radius:12px;padding:18px
@@ -102,6 +99,25 @@ th{color:var(--gold)}
  padding:12px;background:#20334c;
  margin:12px 0
 }
+.teamgrid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+ gap:12px
+}
+.teamcard{
+ background:#203954;border-radius:10px;
+ padding:15px
+}
+.metric{
+ display:flex;justify-content:space-between;
+ gap:12px;padding:9px 0;
+ border-bottom:1px solid #39536c
+}
+.metric strong{color:white}
+.sectiontitle{
+ margin-top:15px;color:var(--gold);
+ font-weight:bold
+}
 [hidden]{display:none!important}
 @media(max-width:600px){
  header h1{font-size:22px}
@@ -112,72 +128,81 @@ th{color:var(--gold)}
 <body>
 <header>
 <h1>⚽ DOC'S GLOBAL SOCCER WAR ROOM</h1>
-<div>Worldwide Fixtures • Scoring Intelligence • Research Receipt</div>
+<div>Worldwide Fixtures • Team Intelligence • Research Receipt</div>
 <small id="updated">Loading worldwide fixtures...</small>
 </header>
+
 <main>
 <nav>
 <button class="active" onclick="showTab('fixtures',this)">
  Upcoming Matches
 </button>
-<button onclick="showTab('rankings',this)">Team Intelligence</button>
-<button onclick="showTab('receipt',this)">War Room Receipt</button>
+<button onclick="showTab('rankings',this)">
+ Team Intelligence
+</button>
+<button onclick="showTab('receipt',this)">
+ War Room Receipt
+</button>
 </nav>
 
 <div id="stats" class="stats"></div>
 
 <div class="notice">
-<b>Evidence-first rule:</b> A match appearing on the calendar
-does not mean scoring statistics are available. Missing data
-always stays visible. No verified betting edge without
-current market prices and a calibrated probability.
+<b>Evidence-first rule:</b> Historical team scoring
+records are research evidence, not current-season
+predictions. No betting edge is confirmed without
+current prices, current team information, and a
+validated probability model.
 </div>
 
 <section id="fixtures">
 <h2>Worldwide Match Calendar</h2>
+
 <div class="filters">
-<button class="active" data-filter="today" onclick="setDay('today',this)">
- Today
-</button>
-<button data-filter="tomorrow" onclick="setDay('tomorrow',this)">
- Tomorrow
-</button>
-<button data-filter="week" onclick="setDay('week',this)">
- Next 7 Days
-</button>
+<button class="active" data-filter="today"
+ onclick="setDay('today',this)">Today</button>
+<button data-filter="tomorrow"
+ onclick="setDay('tomorrow',this)">Tomorrow</button>
+<button data-filter="week"
+ onclick="setDay('week',this)">All Loaded Dates</button>
 </div>
+
 <div class="filters">
-<input id="search" placeholder="Search team or competition"
+<input id="search"
+ placeholder="Search team or competition"
  oninput="renderFixtures()">
 <select id="league" onchange="renderFixtures()">
 <option value="">All competitions</option>
 </select>
 </div>
+
 <p class="muted" id="count"></p>
 <div class="panel" id="matchlist">Loading...</div>
 </section>
 
 <section id="rankings" hidden>
-<h2>Domestic Scoring Rankings</h2>
+<h2>Current Domestic Scoring Rankings</h2>
 <p class="muted">
-These are the historical teams currently available in our
-domestic scoring dataset, not all worldwide teams.
+2026–27 Premier League data currently loaded.
+Click a matchup for additional historical team intelligence.
 </p>
-<div class="tablewrap"><table>
+<div class="tablewrap">
+<table>
 <thead><tr>
 <th>Team</th><th>Games</th><th>Scored 1+</th>
 <th>Scored 2+</th><th>Conceded 1+</th>
 <th>Goals/Game</th><th>xG/Game</th>
 </tr></thead>
 <tbody id="rankrows"></tbody>
-</table></div>
+</table>
+</div>
 </section>
 
 <section id="receipt" hidden>
-<h2>Research Receipt</h2>
+<h2>War Room Research Receipt</h2>
 <p class="muted">
-Pre-match research records. These are not approved wagers.
-Receipt entries stay on this page until cleared or refreshed.
+Research candidates only. No wager is qualified
+without a verified edge.
 </p>
 <div id="receiptlist"></div>
 <div class="actions">
@@ -199,23 +224,27 @@ Receipt entries stay on this page until cleared or refreshed.
 
 <script>
 let db=null;
+let intelligence=null;
 let dayFilter="today";
 let receipt=[];
 
 const $=id=>document.getElementById(id);
+
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({
  "&":"&amp;","<":"&lt;",">":"&gt;",
  '"':"&quot;","'":"&#39;"
 }[c]));
+
 const pct=v=>v==null?"—":(v*100).toFixed(1)+"%";
 const num=v=>v==null?"—":Number(v).toFixed(2);
 
 function chicagoDate(value){
  return new Intl.DateTimeFormat("en-CA",{
-  timeZone:"America/Chicago",year:"numeric",
-  month:"2-digit",day:"2-digit"
+  timeZone:"America/Chicago",
+  year:"numeric",month:"2-digit",day:"2-digit"
  }).format(new Date(value));
 }
+
 function chicagoTime(value){
  if(!value)return "Time TBD";
  const d=new Date(value);
@@ -226,23 +255,17 @@ function chicagoTime(value){
   hour:"numeric",minute:"2-digit"
  }).format(d)+" CT";
 }
+
 function todayCT(){
  return chicagoDate(new Date());
 }
+
 function tomorrowCT(){
  const d=new Date();
  d.setUTCDate(d.getUTCDate()+1);
  return chicagoDate(d);
 }
-function statusClass(m){
- const code=m.status;
- if(["FT","AET","PEN"].includes(code))return "Final";
- if(["1H","HT","2H","ET","BT","P"].includes(code))
-  return "Live";
- if(["PST","CANC","ABD","SUSP"].includes(code))
-  return "Changed";
- return "Scheduled";
-}
+
 function showTab(id,btn){
  ["fixtures","rankings","receipt"].forEach(
   x=>$(x).hidden=x!==id
@@ -253,6 +276,7 @@ function showTab(id,btn){
  btn.classList.add("active");
  if(id==="receipt")renderReceipt();
 }
+
 function setDay(value,btn){
  dayFilter=value;
  document.querySelectorAll("[data-filter]").forEach(
@@ -261,6 +285,7 @@ function setDay(value,btn){
  btn.classList.add("active");
  renderFixtures();
 }
+
 function normalized(s){
  return String(s||"").toLowerCase()
   .replace(/&/g,"and")
@@ -268,120 +293,288 @@ function normalized(s){
   .replace(/[^a-z0-9]/g,"")
   .trim();
 }
-function teamData(name){
+
+function domesticTeam(name){
  if(!db)return null;
  const teams=db.domestic_teams||[];
- const exact=teams.find(t=>t.name.toLowerCase()===
-  String(name).toLowerCase());
+ const exact=teams.find(t=>
+  t.name.toLowerCase()===String(name).toLowerCase()
+ );
  if(exact)return exact;
- // Conservative normalization: only unique matches.
  const key=normalized(name);
  if(key.length<5)return null;
  const matches=teams.filter(t=>normalized(t.name)===key);
  return matches.length===1?matches[0]:null;
 }
+
+function historicalTeam(teamId){
+ if(!intelligence||teamId==null)return [];
+ return intelligence.by_team_id[String(teamId)]||[];
+}
+
+function historicalSummary(teamId){
+ const entries=historicalTeam(teamId);
+ if(!entries.length)return null;
+
+ // Prefer records with the largest completed sample.
+ return [...entries].sort((a,b)=>
+  (b.all?.games||0)-(a.all?.games||0)
+ )[0];
+}
+
 function coverage(m){
- const h=teamData(m.home),a=teamData(m.away);
- if(h&&a)return "PARTIAL";
- if(h||a)return "PARTIAL";
+ const homeHistorical=historicalSummary(m.home_id);
+ const awayHistorical=historicalSummary(m.away_id);
+ const homeDomestic=domesticTeam(m.home);
+ const awayDomestic=domesticTeam(m.away);
+
+ const home=Boolean(homeHistorical||homeDomestic);
+ const away=Boolean(awayHistorical||awayDomestic);
+
+ if(home&&away)return "HISTORICAL BOTH";
+ if(home||away)return "PARTIAL";
  return "MISSING";
 }
-// FULL is intentionally not issued until we have
-// verified current-season data for both teams and
-// the relevant competition.
+
+function statusClass(m){
+ const code=m.status;
+ if(["FT","AET","PEN"].includes(code))return "Final";
+ if(["1H","HT","2H","ET","BT","P"].includes(code))
+  return "Live";
+ if(["PST","CANC","ABD","SUSP"].includes(code))
+  return "Changed";
+ return "Scheduled";
+}
+
 function fixtureList(){
  if(!db)return [];
  const q=$("search").value.toLowerCase();
  const league=$("league").value;
- const today=todayCT(),tomorrow=tomorrowCT();
+ const today=todayCT();
+ const tomorrow=tomorrowCT();
+
  return db.fixtures.filter(m=>{
   const d=m.kickoff?chicagoDate(m.kickoff):"";
   if(dayFilter==="today"&&d!==today)return false;
   if(dayFilter==="tomorrow"&&d!==tomorrow)return false;
   if(league&&String(m.league_id)!==league)return false;
-  const searchable=(m.home+" "+m.away+" "+
-   m.league+" "+m.country).toLowerCase();
+
+  const searchable=(
+   m.home+" "+m.away+" "+m.league+" "+m.country
+  ).toLowerCase();
+
   return searchable.includes(q);
  });
 }
+
 function renderFixtures(){
  if(!db)return;
  const list=fixtureList();
+
  $("count").textContent=list.length+
   " fixtures displayed | Source window: "+
   db.window_start+" to "+db.window_end;
+
  $("matchlist").innerHTML=list.length?
  list.map(m=>{
   const c=coverage(m);
   const index=db.fixtures.indexOf(m);
+  const cls=c==="MISSING"?"missing":
+   c==="PARTIAL"?"partial":"historical";
+
   return `<div class="match">
    <div>
-    <div class="league">${esc(m.country)} • ${esc(m.league)}</div>
+    <div class="league">
+     ${esc(m.country)} • ${esc(m.league)}
+    </div>
     <button onclick="openMatch(${index})">
      ${esc(m.home)} vs ${esc(m.away)}
     </button>
-    <div class="details">${esc(chicagoTime(m.kickoff))}
+    <div class="details">
+     ${esc(chicagoTime(m.kickoff))}
      | ${esc(statusClass(m))}
      ${m.home_goals!=null&&m.away_goals!=null?
       ` | ${m.home_goals}–${m.away_goals}`:""}
     </div>
    </div>
-   <div><span class="pill ${c.toLowerCase()}">
-    ${c} DATA
-   </span></div>
+   <div>
+    <span class="pill ${cls}">${c} DATA</span>
+   </div>
   </div>`;
  }).join(""):
  '<p>No fixtures found for these filters.</p>';
 }
-function teamCard(name,t){
- if(!t){
-  return `<div class="panel">
-   <h3>${esc(name)}</h3>
-   <span class="pill missing">DATA MISSING</span>
-   <p>No verified current-season scoring sample loaded.</p>
-   </div>`;
- }
+
+function domesticCard(name,t){
+ if(!t)return "";
+
  const s=t.season;
- return `<div class="panel">
+
+ return `<div class="teamcard">
   <h3>${esc(name)}</h3>
-  <span class="pill partial">DOMESTIC HISTORY ONLY</span>
-  <p>Matches: ${s.n}</p>
-  <p>Scored 1+: <b>${pct(s.scored_05)}</b></p>
-  <p>Scored 2+: ${pct(s.scored_15)}</p>
-  <p>Conceded 1+: ${pct(s.conceded_05)}</p>
-  <p>First-half scored: ${pct(s.first_half_scored)}</p>
-  <p>Goals/game: ${num(s.goals_for)}</p>
-  <p>xG/game: ${num(s.xg_for)}</p>
-  <p>Last 5 scored 1+: ${pct(t.last5.scored_05)}</p>
-  </div>`;
+  <span class="pill partial">
+   2026–27 DOMESTIC RESULTS
+  </span>
+  <div class="metric">
+   <span>Matches</span><strong>${s.n}</strong>
+  </div>
+  <div class="metric">
+   <span>Scored 1+</span><strong>${pct(s.scored_05)}</strong>
+  </div>
+  <div class="metric">
+   <span>Scored 2+</span><strong>${pct(s.scored_15)}</strong>
+  </div>
+  <div class="metric">
+   <span>Conceded 1+</span><strong>${pct(s.conceded_05)}</strong>
+  </div>
+  <div class="metric">
+   <span>First-half scored</span>
+   <strong>${pct(s.first_half_scored)}</strong>
+  </div>
+  <div class="metric">
+   <span>Goals/game</span><strong>${num(s.goals_for)}</strong>
+  </div>
+  <div class="metric">
+   <span>xG/game</span><strong>${num(s.xg_for)}</strong>
+  </div>
+  <div class="metric">
+   <span>Last 5 scored 1+</span>
+   <strong>${pct(t.last5?.scored_05)}</strong>
+  </div>
+ </div>`;
 }
+
+function historicalCard(name,t){
+ if(!t){
+  return `<div class="teamcard">
+   <h3>${esc(name)}</h3>
+   <span class="pill missing">HISTORY MISSING</span>
+   <p>No verified historical scoring sample loaded.</p>
+  </div>`;
+ }
+
+ const s=t.all;
+ const h=t.home;
+ const a=t.away;
+
+ return `<div class="teamcard">
+  <h3>${esc(name)}</h3>
+  <span class="pill historical">
+   ${esc(t.season)} HISTORICAL SEASON
+  </span>
+  <div class="metric">
+   <span>Historical matches</span>
+   <strong>${s.games}</strong>
+  </div>
+  <div class="metric">
+   <span>Scored 1+</span>
+   <strong>${pct(s.scored_05)}</strong>
+  </div>
+  <div class="metric">
+   <span>Scored 2+</span>
+   <strong>${pct(s.scored_15)}</strong>
+  </div>
+  <div class="metric">
+   <span>Conceded 1+</span>
+   <strong>${pct(s.conceded_05)}</strong>
+  </div>
+  <div class="metric">
+   <span>First-half scored</span>
+   <strong>${pct(s.first_half_scored)}</strong>
+  </div>
+  <div class="metric">
+   <span>Goals/game</span>
+   <strong>${num(s.goals_for)}</strong>
+  </div>
+  <div class="metric">
+   <span>Home scored 1+</span>
+   <strong>${pct(h.scored_05)}</strong>
+  </div>
+  <div class="metric">
+   <span>Away scored 1+</span>
+   <strong>${pct(a.scored_05)}</strong>
+  </div>
+  <div class="metric">
+   <span>Last 5 of historical season</span>
+   <strong>${pct(
+    t.last5_of_historical_season?.scored_05
+   )}</strong>
+  </div>
+ </div>`;
+}
+
 function openMatch(index){
  const m=db.fixtures[index];
- const h=teamData(m.home),a=teamData(m.away);
+
+ const homeDomestic=domesticTeam(m.home);
+ const awayDomestic=domesticTeam(m.away);
+ const homeHistorical=historicalSummary(m.home_id);
+ const awayHistorical=historicalSummary(m.away_id);
+
  const c=coverage(m);
+
  $("modalTitle").textContent=m.home+" vs "+m.away;
+
  $("modalBody").innerHTML=`
-  <p>${esc(m.league)} | ${esc(chicagoTime(m.kickoff))}</p>
-  <p class="pill ${c.toLowerCase()}">${c} DATA</p>
-  ${teamCard(m.home,h)}
-  ${teamCard(m.away,a)}
-  <div class="notice">
-  <b>War Room decision: PASS.</b>
-  We have not verified complete current-season opponent
-  data, a calibrated matchup probability, or a current
-  market price. Domestic records may not reflect
-  international or cup competition performance.
+  <p>
+   ${esc(m.league)} |
+   ${esc(chicagoTime(m.kickoff))}
+  </p>
+
+  <p class="pill historical">${esc(c)} DATA</p>
+
+  <div class="sectiontitle">
+   CURRENT DOMESTIC INTELLIGENCE
   </div>
+
+  <div class="teamgrid">
+   ${homeDomestic?
+    domesticCard(m.home,homeDomestic):
+    `<div class="teamcard">
+     <h3>${esc(m.home)}</h3>
+     <p class="muted">Current domestic data unavailable.</p>
+    </div>`}
+
+   ${awayDomestic?
+    domesticCard(m.away,awayDomestic):
+    `<div class="teamcard">
+     <h3>${esc(m.away)}</h3>
+     <p class="muted">Current domestic data unavailable.</p>
+    </div>`}
+  </div>
+
+  <div class="sectiontitle">
+   2024 HISTORICAL SCORING INTELLIGENCE
+  </div>
+
+  <div class="teamgrid">
+   ${historicalCard(m.home,homeHistorical)}
+   ${historicalCard(m.away,awayHistorical)}
+  </div>
+
+  <div class="notice">
+   <b>War Room decision: PASS.</b>
+   Historical results alone do not establish a
+   current betting edge. We still need current
+   opponent-adjusted probabilities, verified
+   lineups, and market prices.
+  </div>
+
   <button onclick="saveMatch(${index})">
-  Save to Research Receipt
-  </button>`;
+   Save to Research Receipt
+  </button>
+ `;
+
  $("overlay").style.display="flex";
 }
+
 function closeModal(){
  $("overlay").style.display="none";
 }
+
 function saveMatch(index){
  const m=db.fixtures[index];
+
  if(!receipt.some(x=>x.id===m.id)){
   receipt.push({
    id:m.id,
@@ -393,108 +586,154 @@ function saveMatch(index){
    decision:"PASS — no verified edge"
   });
  }
+
  closeModal();
  alert("Saved to research receipt.");
 }
+
 function renderReceipt(){
  $("receiptlist").innerHTML=receipt.length?
  receipt.map(x=>`<div class="panel">
- <div class="league">${esc(x.league)}</div>
- <b>${esc(x.home)} vs ${esc(x.away)}</b>
- <p>${esc(chicagoTime(x.kickoff))}</p>
- <span class="pill">${esc(x.coverage)} DATA</span>
- <p>${esc(x.decision)}</p>
+  <div class="league">${esc(x.league)}</div>
+  <b>${esc(x.home)} vs ${esc(x.away)}</b>
+  <p>${esc(chicagoTime(x.kickoff))}</p>
+  <span class="pill historical">
+   ${esc(x.coverage)} DATA
+  </span>
+  <p>${esc(x.decision)}</p>
  </div>`).join(""):
  '<p>No matches saved yet.</p>';
 }
+
 function copyReceipt(){
  if(!receipt.length){
-  alert("Receipt is empty.");return;
+  alert("Receipt is empty.");
+  return;
  }
- const content="DOC'S GLOBAL SOCCER RESEARCH RECEIPT\n"+
- receipt.map(x=>[
-  x.league,
-  x.home+" vs "+x.away,
-  chicagoTime(x.kickoff),
-  x.coverage+" DATA",
-  x.decision
- ].join(" | ")).join("\n");
+
+ const content=
+  "DOC'S GLOBAL SOCCER RESEARCH RECEIPT\n"+
+  receipt.map(x=>[
+   x.league,
+   x.home+" vs "+x.away,
+   chicagoTime(x.kickoff),
+   x.coverage+" DATA",
+   x.decision
+  ].join(" | ")).join("\n");
+
  if(navigator.clipboard?.writeText){
   navigator.clipboard.writeText(content).then(
    ()=>alert("Receipt copied."),
    ()=>prompt("Copy receipt:",content)
   );
- }else prompt("Copy receipt:",content);
+ }else{
+  prompt("Copy receipt:",content);
+ }
 }
+
 function clearReceipt(){
  if(confirm("Clear research receipt?")){
   receipt=[];
   renderReceipt();
  }
 }
+
 function renderRankings(){
  const teams=[...(db.domestic_teams||[])];
+
  teams.sort((a,b)=>
-  (b.season.scored_05??0)-(a.season.scored_05??0)
+  (b.season.scored_05??0)-
+  (a.season.scored_05??0)
  );
+
  $("rankrows").innerHTML=teams.map(t=>{
   const s=t.season;
+
   return `<tr>
-  <td>${esc(t.name)}</td>
-  <td>${s.n}</td>
-  <td>${pct(s.scored_05)}</td>
-  <td>${pct(s.scored_15)}</td>
-  <td>${pct(s.conceded_05)}</td>
-  <td>${num(s.goals_for)}</td>
-  <td>${num(s.xg_for)}</td>
+   <td>${esc(t.name)}</td>
+   <td>${s.n}</td>
+   <td>${pct(s.scored_05)}</td>
+   <td>${pct(s.scored_15)}</td>
+   <td>${pct(s.conceded_05)}</td>
+   <td>${num(s.goals_for)}</td>
+   <td>${num(s.xg_for)}</td>
   </tr>`;
  }).join("");
 }
+
 async function load(){
  try{
-  const response=await fetch(
-   "data/global-soccer.json?v="+Date.now()
-  );
-  if(!response.ok)throw Error(
-   "Global data file missing. Run GitHub Actions."
-  );
-  db=await response.json();
-  if(!Array.isArray(db.fixtures))
-   throw Error("Invalid global fixture data");
+  const [fixtureResponse,intelligenceResponse]=
+   await Promise.all([
+    fetch("data/global-soccer.json?v="+Date.now()),
+    fetch("data/team-intelligence.json?v="+Date.now())
+   ]);
+
+  if(!fixtureResponse.ok){
+   throw Error("Global fixture file missing.");
+  }
+
+  db=await fixtureResponse.json();
+
+  if(intelligenceResponse.ok){
+   intelligence=await intelligenceResponse.json();
+  }else{
+   intelligence=null;
+   console.warn("Historical intelligence unavailable.");
+  }
+
+  if(!Array.isArray(db.fixtures)){
+   throw Error("Invalid global fixture data.");
+  }
+
   $("updated").textContent=
    "Updated "+chicagoTime(db.generated_utc)+
-   " | Worldwide fixture discovery";
+   " | Historical team intelligence connected";
+
+  const historicalTeams=intelligence?
+   Object.keys(intelligence.by_team_id||{}).length:0;
+
   const cards=[
    ["Fixtures",db.fixture_count],
    ["Competitions",db.league_count],
-   ["Domestic teams",(db.domestic_teams||[]).length],
-   ["Data window","7 days"]
+   ["Historical teams",historicalTeams],
+   ["Domestic teams",(db.domestic_teams||[]).length]
   ];
+
   $("stats").innerHTML=cards.map(([label,value])=>
    `<div class="stat">${esc(label)}
-   <strong>${esc(value)}</strong></div>`
+    <strong>${esc(value)}</strong>
+   </div>`
   ).join("");
+
   const leagues=new Map();
+
   db.fixtures.forEach(m=>{
-   leagues.set(String(m.league_id),
-    (m.country||"")+" — "+m.league);
+   leagues.set(
+    String(m.league_id),
+    (m.country||"")+" — "+m.league
+   );
   });
-  [...leagues.entries()].sort((a,b)=>
-   a[1].localeCompare(b[1])
-  ).forEach(([id,name])=>{
-   const opt=document.createElement("option");
-   opt.value=id;
-   opt.textContent=name;
-   $("league").appendChild(opt);
-  });
+
+  [...leagues.entries()]
+   .sort((a,b)=>a[1].localeCompare(b[1]))
+   .forEach(([id,name])=>{
+    const opt=document.createElement("option");
+    opt.value=id;
+    opt.textContent=name;
+    $("league").appendChild(opt);
+   });
+
   renderFixtures();
   renderRankings();
+
  }catch(error){
   $("updated").textContent="ERROR: "+error.message;
   $("matchlist").textContent=
-   "Run Global Soccer War Room under GitHub Actions.";
+   "Unable to load War Room data.";
  }
 }
+
 load();
 </script>
 </body>
