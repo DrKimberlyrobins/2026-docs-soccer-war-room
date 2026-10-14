@@ -1,0 +1,788 @@
+{
+  "checked_at": "2026-10-14T10:23:38.188977+00:00",
+  "league": "Premier League",
+  "selected_season": 2024,
+  "historical_only": true,
+  "season_tests": [
+    {
+      "season": 2026,
+      "results": 0,
+      "completed": 0,
+      "errors": {
+        "plan": "Free plans do not have access to this season, try from 2022 to 2024."
+      },
+      "remaining": null
+    },
+    {
+      "season": 2024,
+      "results": 380,
+      "completed": 380,
+      "errors": [],
+      "remaining": "97"
+    }
+  ],
+  "teams": [
+    {
+      "team": "Arsenal",
+      "season": {
+        "matches": 38,
+        "scored_1_rate": 0.868,
+        "scored_2_rate": 0.526,
+        "conceded_1_rate": 0.658,
+        "goals_per_game": 1.82
+      },
+      "last_5": {
+        "matches": 5,
+        "scored_1_rate": 1.0,
+        "scored_2_rate": 0.6,
+        "conceded_1_rate": 0.8,
+        "goals_per_game": 1.6
+      },
+      "last_10": {
+        "matches": 10,
+        "scored_1_rate": 1.0,
+        "scored_2_rate": 0.5,
+        "conceded_1_rate": 0.7,
+        "goals_per_game": 1.7
+      },
+      "home": {
+        "matches": 19,
+        "scored_1_rate": 0.895,
+        "scored_2_rate": 0.579,
+        "conceded_1_rate": 0.632,
+        "goals_per_game": 1.84
+      },
+      "away": {
+        "matches": 19,
+        "scored_1_rate": 0.842,
+        "scored_2_rate": 0.474,
+        "conceded_1_rate": 0.684,
+        "goals_per_game": 1.79
+      }
+    },
+    {
+      "team": "Aston Villa",
+      "season": {
+        "matches": 38,
+        "scored_1_rate": 0.816,
+        "scored_2_rate": 0.5,
+        "conceded_1_rate": 0.763,
+        "goals_per_game": 1.53
+      },
+      "last_5": {
+        "matches": 5,
+        "scored_1_rate": 0.8,
+        "scored_2_rate": 0.2,
+        "conceded_1_rate": 0.4,
+        "goals_per_game": 1.0
+      },
+      "last_10": {
+        "matches": 10,
+        "scored_1_rate": 0.9,
+        "scored_2_rate": 0.5,
+        "conceded_1_rate": 0.4,
+        "goals_per_game": 1.8
+      },
+      "home": {
+        "matches": 19,
+        "scored_1_rate": 0.895,
+        "scored_2_rate": 0.632,
+        "conceded_1_rate": 0.789,
+        "goals_per_game": 1.79
+      },
+      "away": {
+        "matches": 19,
+        "scored_1_rate": 0.737,
+        "scored_2_rate": 0.368,
+        "conceded_1_rate": 0.737,
+        "goals_per_game": 1.26
+      }
+    },
+    {
+      "team": "Bournemouth",
+      "season": {
+        "matches": 38,
+        "scored_1_rate": 0.789,
+        "scored_2_rate": 0.447,
+        "conceded_1_rate": 0.763,
+        "goals_per_game": 1.53
+      },
+      "last_5": {
+        "matches": 5,
+        "scored_1_rate": 0.8,
+        "scored_2_rate": 0.4,
+        "conceded_1_rate": 0.8,
+        "goals_per_game": 1.2
+      },
+      "last_10": {
+        "matches": 10,
+        "scored_1_rate": 0.8,
+        "scored_2_rate": 0.3,
+        "conceded_1_rate": 0.7,
+        "goals_per_game": 1.1
+      },
+      "home": {
+        "matches": 19,
+        "scored_1_rate": 0.737,
+        "scored_2_rate": 0.263,
+        "conceded_1_rate": 0.632,
+        "goals_per_game": 1.21
+      },
+      "away": {
+        "matches": 19,
+        "scored_1_rate": 0.842,
+        "scored_2_rate": 0.632,
+        "conceded_1_rate": 0.895,
+        "goals_per_game": 1.84
+      }
+    },
+    {
+      "team": "Brentford",
+      "season": {
+        "matches": 38,
+        "scored_1_rate": 0.789,
+        "scored_2_rate": 0.421,
+        "conceded_1_rate": 0.789,
+        "goals_per_game": 1.74
+      },
+      "last_5": {
+        "matches": 5,
+        "scored_1_rate": 1.0,
+        "scored_2_rate": 0.6,
+        "conceded_1_rate": 0.6,
+        "goals_per_game": 2.0
+      },
+      "last_10": {
+        "matches": 10,
+        "scored_1_rate": 0.9,
+        "scored_2_rate": 0.5,
+        "conceded_1_rate": 0.7,
+        "goals_per_game": 1.8
+      },
+      "home": {
+        "matches": 19,
+        "scored_1_rate": 0.737,
+        "scored_2_rate": 0.579,
+        "conceded_1_rate": 0.947,
+        "goals_per_game": 2.11
+      },
+      "away": {
+        "matches": 19,
+        "scored_1_rate": 0.842,
+        "scored_2_rate": 0.263,
+        "conceded_1_rate": 0.632,
+        "goals_per_game": 1.37
+      }
+    },
+    {
+      "team": "Brighton",
+      "season": {
+        "matches": 38,
+        "scored_1_rate": 0.868,
+        "scored_2_rate": 0.605,
+        "conceded_1_rate": 0.789,
+        "goals_per_game": 1.74
+      },
+      "last_5": {
+        "matches": 5,
+        "scored_1_rate": 1.0,
+        "scored_2_rate": 0.8,
+        "conceded_1_rate": 0.8,
+        "goals_per_game": 2.6
+      },
+      "last_10": {
+        "matches": 10,
+        "scored_1_rate": 0.9,
+        "scored_2_rate": 0.7,
+        "conceded_1_rate": 0.9,
+        "goals_per_game": 2.0
+      },
+      "home": {
+        "matches": 19,
+        "scored_1_rate": 0.789,
+        "scored_2_rate": 0.579,
+        "conceded_1_rate": 0.842,
+        "goals_per_game": 1.58
+      },
+      "away": {
+        "matches": 19,
+        "scored_1_rate": 0.947,
+        "scored_2_rate": 0.632,
+        "conceded_1_rate": 0.737,
+        "goals_per_game": 1.89
+      }
+    },
+    {
+      "team": "Chelsea",
+      "season": {
+        "matches": 38,
+        "scored_1_rate": 0.816,
+        "scored_2_rate": 0.421,
+        "conceded_1_rate": 0.711,
+        "goals_per_game": 1.68
+      },
+      "last_5": {
+        "matches": 5,
+        "scored_1_rate": 0.8,
+        "scored_2_rate": 0.2,
+        "conceded_1_rate": 0.4,
+        "goals_per_game": 1.2
+      },
+      "last_10": {
+        "matches": 10,
+        "scored_1_rate": 0.7,
+        "scored_2_rate": 0.3,
+        "conceded_1_rate": 0.5,
+        "goals_per_game": 1.1
+      },
+      "home": {
+        "matches": 19,
+        "scored_1_rate": 0.947,
+        "scored_2_rate": 0.526,
+        "conceded_1_rate": 0.684,
+        "goals_per_game": 1.84
+      },
+      "away": {
+        "matches": 19,
+        "scored_1_rate": 0.684,
+        "scored_2_rate": 0.316,
+        "conceded_1_rate": 0.737,
+        "goals_per_game": 1.53
+      }
+    },
+    {
+      "team": "Crystal Palace",
+      "season": {
+        "matches": 38,
+        "scored_1_rate": 0.789,
+        "scored_2_rate": 0.421,
+        "conceded_1_rate": 0.711,
+        "goals_per_game": 1.34
+      },
+      "last_5": {
+        "matches": 5,
+        "scored_1_rate": 1.0,
+        "scored_2_rate": 0.6,
+        "conceded_1_rate": 0.8,
+        "goals_per_game": 2.0
+      },
+      "last_10": {
+        "matches": 10,
+        "scored_1_rate": 0.8,
+        "scored_2_rate": 0.5,
+        "conceded_1_rate": 0.8,
+        "goals_per_game": 1.5
+      },
+      "home": {
+        "matches": 19,
+        "scored_1_rate": 0.737,
+        "scored_2_rate": 0.316,
+        "conceded_1_rate": 0.789,
+        "goals_per_game": 1.26
+      },
+      "away": {
+        "matches": 19,
+        "scored_1_rate": 0.842,
+        "scored_2_rate": 0.526,
+        "conceded_1_rate": 0.632,
+        "goals_per_game": 1.42
+      }
+    },
+    {
+      "team": "Everton",
+      "season": {
+        "matches": 38,
+        "scored_1_rate": 0.605,
+        "scored_2_rate": 0.342,
+        "conceded_1_rate": 0.684,
+        "goals_per_game": 1.11
+      },
+      "last_5": {
+        "matches": 5,
+        "scored_1_rate": 0.8,
+        "scored_2_rate": 0.6,
+        "conceded_1_rate": 0.6,
+        "goals_per_game": 1.6
+      },
+      "last_10": {
+        "matches": 10,
+        "scored_1_rate": 0.7,
+        "scored_2_rate": 0.3,
+        "conceded_1_rate": 0.7,
+        "goals_per_game": 1.1
+      },
+      "home": {
+        "matches": 19,
+        "scored_1_rate": 0.632,
+        "scored_2_rate": 0.474,
+        "conceded_1_rate": 0.684,
+        "goals_per_game": 1.37
+      },
+      "away": {
+        "matches": 19,
+        "scored_1_rate": 0.579,
+        "scored_2_rate": 0.211,
+        "conceded_1_rate": 0.684,
+        "goals_per_game": 0.84
+      }
+    },
+    {
+      "team": "Fulham",
+      "season": {
+        "matches": 38,
+        "scored_1_rate": 0.816,
+        "scored_2_rate": 0.5,
+        "conceded_1_rate": 0.868,
+        "goals_per_game": 1.42
+      },
+      "last_5": {
+        "matches": 5,
+        "scored_1_rate": 0.6,
+        "scored_2_rate": 0.4,
+        "conceded_1_rate": 1.0,
+        "goals_per_game": 1.2
+      },
+      "last_10": {
+        "matches": 10,
+        "scored_1_rate": 0.7,
+        "scored_2_rate": 0.4,
+        "conceded_1_rate": 0.9,
+        "goals_per_game": 1.3
+      },
+      "home": {
+        "matches": 19,
+        "scored_1_rate": 0.789,
+        "scored_2_rate": 0.474,
+        "conceded_1_rate": 0.895,
+        "goals_per_game": 1.42
+      },
+      "away": {
+        "matches": 19,
+        "scored_1_rate": 0.842,
+        "scored_2_rate": 0.526,
+        "conceded_1_rate": 0.842,
+        "goals_per_game": 1.42
+      }
+    },
+    {
+      "team": "Ipswich",
+      "season": {
+        "matches": 38,
+        "scored_1_rate": 0.632,
+        "scored_2_rate": 0.289,
+        "conceded_1_rate": 0.947,
+        "goals_per_game": 0.95
+      },
+      "last_5": {
+        "matches": 5,
+        "scored_1_rate": 0.4,
+        "scored_2_rate": 0.2,
+        "conceded_1_rate": 1.0,
+        "goals_per_game": 0.6
+      },
+      "last_10": {
+        "matches": 10,
+        "scored_1_rate": 0.6,
+        "scored_2_rate": 0.4,
+        "conceded_1_rate": 1.0,
+        "goals_per_game": 1.0
+      },
+      "home": {
+        "matches": 19,
+        "scored_1_rate": 0.579,
+        "scored_2_rate": 0.158,
+        "conceded_1_rate": 0.947,
+        "goals_per_game": 0.74
+      },
+      "away": {
+        "matches": 19,
+        "scored_1_rate": 0.684,
+        "scored_2_rate": 0.421,
+        "conceded_1_rate": 0.947,
+        "goals_per_game": 1.16
+      }
+    },
+    {
+      "team": "Leicester",
+      "season": {
+        "matches": 38,
+        "scored_1_rate": 0.553,
+        "scored_2_rate": 0.263,
+        "conceded_1_rate": 0.921,
+        "goals_per_game": 0.87
+      },
+      "last_5": {
+        "matches": 5,
+        "scored_1_rate": 0.6,
+        "scored_2_rate": 0.6,
+        "conceded_1_rate": 0.6,
+        "goals_per_game": 1.2
+      },
+      "last_10": {
+        "matches": 10,
+        "scored_1_rate": 0.4,
+        "scored_2_rate": 0.4,
+        "conceded_1_rate": 0.8,
+        "goals_per_game": 0.8
+      },
+      "home": {
+        "matches": 19,
+        "scored_1_rate": 0.526,
+        "scored_2_rate": 0.211,
+        "conceded_1_rate": 0.842,
+        "goals_per_game": 0.79
+      },
+      "away": {
+        "matches": 19,
+        "scored_1_rate": 0.579,
+        "scored_2_rate": 0.316,
+        "conceded_1_rate": 1.0,
+        "goals_per_game": 0.95
+      }
+    },
+    {
+      "team": "Liverpool",
+      "season": {
+        "matches": 38,
+        "scored_1_rate": 0.974,
+        "scored_2_rate": 0.816,
+        "conceded_1_rate": 0.632,
+        "goals_per_game": 2.26
+      },
+      "last_5": {
+        "matches": 5,
+        "scored_1_rate": 1.0,
+        "scored_2_rate": 0.6,
+        "conceded_1_rate": 1.0,
+        "goals_per_game": 2.2
+      },
+      "last_10": {
+        "matches": 10,
+        "scored_1_rate": 1.0,
+        "scored_2_rate": 0.6,
+        "conceded_1_rate": 0.8,
+        "goals_per_game": 2.0
+      },
+      "home": {
+        "matches": 19,
+        "scored_1_rate": 0.947,
+        "scored_2_rate": 0.842,
+        "conceded_1_rate": 0.684,
+        "goals_per_game": 2.21
+      },
+      "away": {
+        "matches": 19,
+        "scored_1_rate": 1.0,
+        "scored_2_rate": 0.789,
+        "conceded_1_rate": 0.579,
+        "goals_per_game": 2.32
+      }
+    },
+    {
+      "team": "Manchester City",
+      "season": {
+        "matches": 38,
+        "scored_1_rate": 0.842,
+        "scored_2_rate": 0.579,
+        "conceded_1_rate": 0.658,
+        "goals_per_game": 1.89
+      },
+      "last_5": {
+        "matches": 5,
+        "scored_1_rate": 0.8,
+        "scored_2_rate": 0.6,
+        "conceded_1_rate": 0.4,
+        "goals_per_game": 1.6
+      },
+      "last_10": {
+        "matches": 10,
+        "scored_1_rate": 0.8,
+        "scored_2_rate": 0.7,
+        "conceded_1_rate": 0.4,
+        "goals_per_game": 1.9
+      },
+      "home": {
+        "matches": 19,
+        "scored_1_rate": 0.895,
+        "scored_2_rate": 0.684,
+        "conceded_1_rate": 0.737,
+        "goals_per_game": 2.26
+      },
+      "away": {
+        "matches": 19,
+        "scored_1_rate": 0.789,
+        "scored_2_rate": 0.474,
+        "conceded_1_rate": 0.579,
+        "goals_per_game": 1.53
+      }
+    },
+    {
+      "team": "Manchester United",
+      "season": {
+        "matches": 38,
+        "scored_1_rate": 0.605,
+        "scored_2_rate": 0.342,
+        "conceded_1_rate": 0.737,
+        "goals_per_game": 1.16
+      },
+      "last_5": {
+        "matches": 5,
+        "scored_1_rate": 0.6,
+        "scored_2_rate": 0.4,
+        "conceded_1_rate": 0.8,
+        "goals_per_game": 1.2
+      },
+      "last_10": {
+        "matches": 10,
+        "scored_1_rate": 0.5,
+        "scored_2_rate": 0.3,
+        "conceded_1_rate": 0.7,
+        "goals_per_game": 1.0
+      },
+      "home": {
+        "matches": 19,
+        "scored_1_rate": 0.579,
+        "scored_2_rate": 0.368,
+        "conceded_1_rate": 0.737,
+        "goals_per_game": 1.21
+      },
+      "away": {
+        "matches": 19,
+        "scored_1_rate": 0.632,
+        "scored_2_rate": 0.316,
+        "conceded_1_rate": 0.737,
+        "goals_per_game": 1.11
+      }
+    },
+    {
+      "team": "Newcastle",
+      "season": {
+        "matches": 38,
+        "scored_1_rate": 0.816,
+        "scored_2_rate": 0.5,
+        "conceded_1_rate": 0.658,
+        "goals_per_game": 1.79
+      },
+      "last_5": {
+        "matches": 5,
+        "scored_1_rate": 0.6,
+        "scored_2_rate": 0.4,
+        "conceded_1_rate": 0.6,
+        "goals_per_game": 1.2
+      },
+      "last_10": {
+        "matches": 10,
+        "scored_1_rate": 0.8,
+        "scored_2_rate": 0.6,
+        "conceded_1_rate": 0.6,
+        "goals_per_game": 2.1
+      },
+      "home": {
+        "matches": 19,
+        "scored_1_rate": 0.842,
+        "scored_2_rate": 0.579,
+        "conceded_1_rate": 0.579,
+        "goals_per_game": 2.11
+      },
+      "away": {
+        "matches": 19,
+        "scored_1_rate": 0.789,
+        "scored_2_rate": 0.421,
+        "conceded_1_rate": 0.737,
+        "goals_per_game": 1.47
+      }
+    },
+    {
+      "team": "Nottingham Forest",
+      "season": {
+        "matches": 38,
+        "scored_1_rate": 0.789,
+        "scored_2_rate": 0.395,
+        "conceded_1_rate": 0.658,
+        "goals_per_game": 1.53
+      },
+      "last_5": {
+        "matches": 5,
+        "scored_1_rate": 0.6,
+        "scored_2_rate": 0.4,
+        "conceded_1_rate": 1.0,
+        "goals_per_game": 1.0
+      },
+      "last_10": {
+        "matches": 10,
+        "scored_1_rate": 0.7,
+        "scored_2_rate": 0.4,
+        "conceded_1_rate": 0.9,
+        "goals_per_game": 1.3
+      },
+      "home": {
+        "matches": 19,
+        "scored_1_rate": 0.737,
+        "scored_2_rate": 0.263,
+        "conceded_1_rate": 0.579,
+        "goals_per_game": 1.37
+      },
+      "away": {
+        "matches": 19,
+        "scored_1_rate": 0.842,
+        "scored_2_rate": 0.526,
+        "conceded_1_rate": 0.737,
+        "goals_per_game": 1.68
+      }
+    },
+    {
+      "team": "Southampton",
+      "season": {
+        "matches": 38,
+        "scored_1_rate": 0.579,
+        "scored_2_rate": 0.105,
+        "conceded_1_rate": 0.921,
+        "goals_per_game": 0.68
+      },
+      "last_5": {
+        "matches": 5,
+        "scored_1_rate": 0.4,
+        "scored_2_rate": 0.0,
+        "conceded_1_rate": 0.8,
+        "goals_per_game": 0.4
+      },
+      "last_10": {
+        "matches": 10,
+        "scored_1_rate": 0.6,
+        "scored_2_rate": 0.0,
+        "conceded_1_rate": 0.9,
+        "goals_per_game": 0.6
+      },
+      "home": {
+        "matches": 19,
+        "scored_1_rate": 0.579,
+        "scored_2_rate": 0.105,
+        "conceded_1_rate": 0.895,
+        "goals_per_game": 0.68
+      },
+      "away": {
+        "matches": 19,
+        "scored_1_rate": 0.579,
+        "scored_2_rate": 0.105,
+        "conceded_1_rate": 0.947,
+        "goals_per_game": 0.68
+      }
+    },
+    {
+      "team": "Tottenham",
+      "season": {
+        "matches": 38,
+        "scored_1_rate": 0.763,
+        "scored_2_rate": 0.447,
+        "conceded_1_rate": 0.842,
+        "goals_per_game": 1.68
+      },
+      "last_5": {
+        "matches": 5,
+        "scored_1_rate": 0.6,
+        "scored_2_rate": 0.0,
+        "conceded_1_rate": 1.0,
+        "goals_per_game": 0.6
+      },
+      "last_10": {
+        "matches": 10,
+        "scored_1_rate": 0.6,
+        "scored_2_rate": 0.2,
+        "conceded_1_rate": 1.0,
+        "goals_per_game": 0.9
+      },
+      "home": {
+        "matches": 19,
+        "scored_1_rate": 0.842,
+        "scored_2_rate": 0.474,
+        "conceded_1_rate": 0.895,
+        "goals_per_game": 1.84
+      },
+      "away": {
+        "matches": 19,
+        "scored_1_rate": 0.684,
+        "scored_2_rate": 0.421,
+        "conceded_1_rate": 0.789,
+        "goals_per_game": 1.53
+      }
+    },
+    {
+      "team": "West Ham",
+      "season": {
+        "matches": 38,
+        "scored_1_rate": 0.789,
+        "scored_2_rate": 0.316,
+        "conceded_1_rate": 0.816,
+        "goals_per_game": 1.21
+      },
+      "last_5": {
+        "matches": 5,
+        "scored_1_rate": 1.0,
+        "scored_2_rate": 0.6,
+        "conceded_1_rate": 0.8,
+        "goals_per_game": 1.8
+      },
+      "last_10": {
+        "matches": 10,
+        "scored_1_rate": 0.9,
+        "scored_2_rate": 0.4,
+        "conceded_1_rate": 0.9,
+        "goals_per_game": 1.4
+      },
+      "home": {
+        "matches": 19,
+        "scored_1_rate": 0.684,
+        "scored_2_rate": 0.368,
+        "conceded_1_rate": 0.895,
+        "goals_per_game": 1.21
+      },
+      "away": {
+        "matches": 19,
+        "scored_1_rate": 0.895,
+        "scored_2_rate": 0.263,
+        "conceded_1_rate": 0.737,
+        "goals_per_game": 1.21
+      }
+    },
+    {
+      "team": "Wolves",
+      "season": {
+        "matches": 38,
+        "scored_1_rate": 0.816,
+        "scored_2_rate": 0.421,
+        "conceded_1_rate": 0.789,
+        "goals_per_game": 1.42
+      },
+      "last_5": {
+        "matches": 5,
+        "scored_1_rate": 0.6,
+        "scored_2_rate": 0.4,
+        "conceded_1_rate": 0.8,
+        "goals_per_game": 1.2
+      },
+      "last_10": {
+        "matches": 10,
+        "scored_1_rate": 0.8,
+        "scored_2_rate": 0.5,
+        "conceded_1_rate": 0.7,
+        "goals_per_game": 1.6
+      },
+      "home": {
+        "matches": 19,
+        "scored_1_rate": 0.842,
+        "scored_2_rate": 0.421,
+        "conceded_1_rate": 0.737,
+        "goals_per_game": 1.42
+      },
+      "away": {
+        "matches": 19,
+        "scored_1_rate": 0.789,
+        "scored_2_rate": 0.421,
+        "conceded_1_rate": 0.842,
+        "goals_per_game": 1.42
+      }
+    }
+  ],
+  "requests_used_by_test": 2,
+  "note": "Historical rates are descriptive, not calibrated future probabilities or betting recommendations."
+}
