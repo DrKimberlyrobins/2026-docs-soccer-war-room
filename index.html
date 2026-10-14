@@ -4,109 +4,183 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Doc's Soccer War Room</title>
+<title>Doc's Global Soccer War Room</title>
 <style>
 :root{
- --navy:#09172d;--panel:#12243d;--gold:#efc66b;
- --orange:#ef8939;--green:#30db99;--muted:#a9b9cf;
+ --navy:#09172d;--panel:#142840;--gold:#efc66b;
+ --orange:#ef8939;--green:#36d69b;--muted:#adbed2;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--navy);color:#f3f6fb;
- font-family:Arial,Helvetica,sans-serif}
-header{padding:24px;background:#10223c;border-bottom:3px solid var(--gold)}
-h1{margin:0;color:var(--gold);font-size:28px}
-h2{color:var(--gold);font-size:20px}
+body{
+ margin:0;background:var(--navy);color:white;
+ font-family:Arial,Helvetica,sans-serif
+}
+header{
+ padding:23px 16px;background:#10233c;
+ border-bottom:3px solid var(--gold)
+}
+header h1{margin:0;color:var(--gold);font-size:27px}
+main{max-width:1250px;margin:auto;padding:16px}
+h2{color:var(--gold)}
 small,.muted{color:var(--muted)}
-main{max-width:1250px;margin:auto;padding:18px}
-nav{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
-button,input,select{font:inherit;border-radius:8px;padding:11px}
-button{background:#203b5c;color:white;border:1px solid #426080;cursor:pointer}
+nav,.filters,.actions{
+ display:flex;flex-wrap:wrap;gap:9px;margin:15px 0
+}
+button,input,select{
+ border-radius:8px;padding:10px;font:inherit
+}
+button{
+ background:#223e5e;color:white;
+ border:1px solid #48627e;cursor:pointer
+}
 button:hover{border-color:var(--gold)}
-button.active{background:var(--gold);color:#07182c}
-input,select{background:#0b1b30;color:white;border:1px solid #426080}
-.panel{background:var(--panel);padding:18px;border-radius:12px;margin:14px 0}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
-.stat{background:#1b3451;padding:16px;border-radius:10px}
-.stat strong{display:block;font-size:24px;color:var(--gold);margin-top:8px}
-.toolbar{display:flex;gap:10px;flex-wrap:wrap}
-.toolbar input{flex:1;min-width:180px}
+button.active{background:var(--gold);color:#09172d}
+input,select{
+ background:#0d1e33;color:white;border:1px solid #48627e
+}
+input{flex:1;min-width:170px}
+.panel{
+ background:var(--panel);border-radius:12px;
+ padding:16px;margin:14px 0
+}
+.stats{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+ gap:10px
+}
+.stat{
+ background:#203954;border-radius:10px;
+ padding:15px
+}
+.stat strong{
+ display:block;color:var(--gold);
+ font-size:25px;margin-top:6px
+}
+.match{
+ border-top:2px solid var(--orange);
+ padding:14px 6px;display:grid;
+ grid-template-columns:1fr auto;
+ gap:12px;align-items:center
+}
+.match:first-child{border-top:0}
+.match button{font-weight:bold;text-align:left}
+.league{color:var(--gold);font-size:13px;margin-bottom:6px}
+.details{font-size:13px;color:var(--muted);margin-top:7px}
+.pill{
+ display:inline-block;padding:5px 8px;
+ border-radius:15px;border:1px solid #536c86;
+ font-size:12px
+}
+.full{color:var(--green)}
+.partial{color:var(--gold)}
+.missing{color:#ff9c85}
 .tablewrap{overflow:auto}
-table{width:100%;border-collapse:collapse;min-width:760px}
-th,td{padding:12px;text-align:left;border-bottom:1px solid #34506b}
-th{color:var(--gold);white-space:nowrap}
-tr:hover{background:#1b3655}
-.name{color:white;background:none;border:0;text-decoration:underline;
- text-decoration-color:var(--gold);padding:0}
-.good{color:var(--green);font-weight:bold}
-.orange{border-left:4px solid var(--orange);padding-left:12px}
-.pill{display:inline-block;border:1px solid #426080;
- border-radius:18px;padding:5px 9px;font-size:12px}
-.game{border-top:2px solid var(--orange);padding:12px 0}
-#overlay{display:none;position:fixed;inset:0;background:#000b;
- align-items:center;justify-content:center;padding:15px;z-index:5}
-#modal{background:#142840;border:2px solid var(--gold);
- border-radius:14px;max-width:750px;width:100%;
- max-height:90vh;overflow:auto;padding:22px}
-.modalhead{display:flex;justify-content:space-between;align-items:center}
-.close{font-size:22px}
-pre{white-space:pre-wrap;word-break:break-word}
-.note{border-left:3px solid var(--gold);padding:10px 14px;color:var(--muted)}
-@media(max-width:600px){h1{font-size:23px};main{padding:10px}}
+table{width:100%;border-collapse:collapse;min-width:650px}
+th,td{padding:10px;border-bottom:1px solid #39536c;text-align:left}
+th{color:var(--gold)}
+.name{
+ background:none;border:0;color:white;
+ text-decoration:underline;text-decoration-color:var(--gold)
+}
+#overlay{
+ display:none;position:fixed;inset:0;
+ background:#000c;align-items:center;
+ justify-content:center;padding:12px;z-index:10
+}
+#modal{
+ width:100%;max-width:850px;max-height:90vh;
+ overflow:auto;background:#142840;
+ border:2px solid var(--gold);
+ border-radius:12px;padding:18px
+}
+.modalhead{
+ display:flex;align-items:center;
+ justify-content:space-between
+}
+.notice{
+ border-left:4px solid var(--orange);
+ padding:12px;background:#20334c;
+ margin:12px 0
+}
+[hidden]{display:none!important}
+@media(max-width:600px){
+ header h1{font-size:22px}
+ .match{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
 <header>
-<h1>⚽ DOC'S SOCCER WAR ROOM</h1>
-<div>2026–27 Scoring Intelligence • Research Edition</div>
-<small id="status">Loading verified match records...</small>
+<h1>⚽ DOC'S GLOBAL SOCCER WAR ROOM</h1>
+<div>Worldwide Fixtures • Scoring Intelligence • Research Receipt</div>
+<small id="updated">Loading worldwide fixtures...</small>
 </header>
 <main>
 <nav>
-<button class="active" onclick="page('rankings',this)">Team Rankings</button>
-<button onclick="page('matches',this)">Match Records</button>
-<button onclick="page('receipt',this)">War Room Receipt</button>
+<button class="active" onclick="showTab('fixtures',this)">
+ Upcoming Matches
+</button>
+<button onclick="showTab('rankings',this)">Team Intelligence</button>
+<button onclick="showTab('receipt',this)">War Room Receipt</button>
 </nav>
 
-<div id="summary" class="stats"></div>
-<div class="panel note">
-Historical scoring rates describe completed matches, not the probability
-of the next result. No green betting qualification is issued without
-a current market price, calibrated projection, and matchup checks.
+<div id="stats" class="stats"></div>
+
+<div class="notice">
+<b>Evidence-first rule:</b> A match appearing on the calendar
+does not mean scoring statistics are available. Missing data
+always stays visible. No verified betting edge without
+current market prices and a calibrated probability.
 </div>
 
-<section id="rankings">
-<h2>Team Scoring Intelligence</h2>
-<div class="toolbar">
-<input id="search" placeholder="Search teams..." oninput="renderTeams()">
-<select id="sort" onchange="renderTeams()">
-<option value="scored_05">Scored 1+ rate</option>
-<option value="scored_15">Scored 2+ rate</option>
-<option value="first_half_scored">First-half scoring</option>
-<option value="goals_for">Goals per match</option>
-<option value="xg_for">Expected goals</option>
-<option value="conceded_05">Conceded 1+ rate</option>
+<section id="fixtures">
+<h2>Worldwide Match Calendar</h2>
+<div class="filters">
+<button class="active" data-filter="today" onclick="setDay('today',this)">
+ Today
+</button>
+<button data-filter="tomorrow" onclick="setDay('tomorrow',this)">
+ Tomorrow
+</button>
+<button data-filter="week" onclick="setDay('week',this)">
+ Next 7 Days
+</button>
+</div>
+<div class="filters">
+<input id="search" placeholder="Search team or competition"
+ oninput="renderFixtures()">
+<select id="league" onchange="renderFixtures()">
+<option value="">All competitions</option>
 </select>
 </div>
+<p class="muted" id="count"></p>
+<div class="panel" id="matchlist">Loading...</div>
+</section>
+
+<section id="rankings" hidden>
+<h2>Domestic Scoring Rankings</h2>
+<p class="muted">
+These are the historical teams currently available in our
+domestic scoring dataset, not all worldwide teams.
+</p>
 <div class="tablewrap"><table>
 <thead><tr>
-<th>Team</th><th>Played</th><th>Scored 1+</th>
-<th>Scored 2+</th><th>1H scored</th><th>Goals/game</th>
-<th>xG/game</th>
+<th>Team</th><th>Games</th><th>Scored 1+</th>
+<th>Scored 2+</th><th>Conceded 1+</th>
+<th>Goals/Game</th><th>xG/Game</th>
 </tr></thead>
-<tbody id="teamrows"></tbody>
+<tbody id="rankrows"></tbody>
 </table></div>
 </section>
 
-<section id="matches" hidden>
-<h2>Completed Match Records</h2>
-<div id="matchrows"></div>
-</section>
-
 <section id="receipt" hidden>
-<h2>War Room Research Receipt</h2>
-<p class="muted">Saved research candidates. Not approved wagers.</p>
-<div id="receiptrows"></div>
-<div class="toolbar">
+<h2>Research Receipt</h2>
+<p class="muted">
+Pre-match research records. These are not approved wagers.
+Receipt entries stay on this page until cleared or refreshed.
+</p>
+<div id="receiptlist"></div>
+<div class="actions">
 <button onclick="copyReceipt()">Copy Receipt</button>
 <button onclick="clearReceipt()">Clear Receipt</button>
 </div>
@@ -117,7 +191,7 @@ a current market price, calibrated projection, and matchup checks.
 <div id="modal">
 <div class="modalhead">
 <h2 id="modalTitle"></h2>
-<button class="close" onclick="closeModal()">×</button>
+<button onclick="closeModal()">✕</button>
 </div>
 <div id="modalBody"></div>
 </div>
@@ -125,172 +199,300 @@ a current market price, calibrated projection, and matchup checks.
 
 <script>
 let db=null;
+let dayFilter="today";
 let receipt=[];
+
 const $=id=>document.getElementById(id);
-const pct=v=>v==null?"—":(v*100).toFixed(1)+"%";
-const num=v=>v==null?"—":Number(v).toFixed(2);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({
  "&":"&amp;","<":"&lt;",">":"&gt;",
  '"':"&quot;","'":"&#39;"
 }[c]));
+const pct=v=>v==null?"—":(v*100).toFixed(1)+"%";
+const num=v=>v==null?"—":Number(v).toFixed(2);
 
-function page(id,button){
- for(const key of ["rankings","matches","receipt"])
-  $(key).hidden=key!==id;
+function chicagoDate(value){
+ return new Intl.DateTimeFormat("en-CA",{
+  timeZone:"America/Chicago",year:"numeric",
+  month:"2-digit",day:"2-digit"
+ }).format(new Date(value));
+}
+function chicagoTime(value){
+ if(!value)return "Time TBD";
+ const d=new Date(value);
+ if(Number.isNaN(d.getTime()))return "Time TBD";
+ return new Intl.DateTimeFormat("en-US",{
+  timeZone:"America/Chicago",
+  weekday:"short",month:"short",day:"numeric",
+  hour:"numeric",minute:"2-digit"
+ }).format(d)+" CT";
+}
+function todayCT(){
+ return chicagoDate(new Date());
+}
+function tomorrowCT(){
+ const d=new Date();
+ d.setUTCDate(d.getUTCDate()+1);
+ return chicagoDate(d);
+}
+function statusClass(m){
+ const code=m.status;
+ if(["FT","AET","PEN"].includes(code))return "Final";
+ if(["1H","HT","2H","ET","BT","P"].includes(code))
+  return "Live";
+ if(["PST","CANC","ABD","SUSP"].includes(code))
+  return "Changed";
+ return "Scheduled";
+}
+function showTab(id,btn){
+ ["fixtures","rankings","receipt"].forEach(
+  x=>$(x).hidden=x!==id
+ );
  document.querySelectorAll("nav button").forEach(
-  b=>b.classList.remove("active"));
- button.classList.add("active");
+  b=>b.classList.remove("active")
+ );
+ btn.classList.add("active");
  if(id==="receipt")renderReceipt();
 }
-
-async function load(){
- try{
-  const response=await fetch("data/soccer-current.json?cache="+Date.now());
-  if(!response.ok)throw Error("Data file not available");
-  db=await response.json();
-  if(!Array.isArray(db.teams)||!db.matches_count)
-   throw Error("Invalid data file");
-  $("status").textContent=
-   db.league+" | Latest result: "+db.latest_match+
-   " | Refreshed: "+db.updated_utc;
-  const items=[
-   ["Matches",db.matches_count],
-   ["Teams",db.team_count],
-   ["Latest result",db.latest_match],
-   ["Data source","Football-Data"]
-  ];
-  $("summary").innerHTML=items.map(([a,b])=>
-   `<div class="stat">${esc(a)}<strong>${esc(b)}</strong></div>`
-  ).join("");
-  renderTeams();
-  renderMatches();
- }catch(e){
-  $("status").textContent="DATA ERROR: "+e.message;
-  $("summary").innerHTML=
-   '<div class="panel">Run Update Soccer War Room in GitHub Actions first.</div>';
- }
+function setDay(value,btn){
+ dayFilter=value;
+ document.querySelectorAll("[data-filter]").forEach(
+  b=>b.classList.remove("active")
+ );
+ btn.classList.add("active");
+ renderFixtures();
 }
-
-function renderTeams(){
+function normalized(s){
+ return String(s||"").toLowerCase()
+  .replace(/&/g,"and")
+  .replace(/\b(fc|afc|cf|sc|united|city)\b/g,"")
+  .replace(/[^a-z0-9]/g,"")
+  .trim();
+}
+function teamData(name){
+ if(!db)return null;
+ const teams=db.domestic_teams||[];
+ const exact=teams.find(t=>t.name.toLowerCase()===
+  String(name).toLowerCase());
+ if(exact)return exact;
+ // Conservative normalization: only unique matches.
+ const key=normalized(name);
+ if(key.length<5)return null;
+ const matches=teams.filter(t=>normalized(t.name)===key);
+ return matches.length===1?matches[0]:null;
+}
+function coverage(m){
+ const h=teamData(m.home),a=teamData(m.away);
+ if(h&&a)return "PARTIAL";
+ if(h||a)return "PARTIAL";
+ return "MISSING";
+}
+// FULL is intentionally not issued until we have
+// verified current-season data for both teams and
+// the relevant competition.
+function fixtureList(){
+ if(!db)return [];
+ const q=$("search").value.toLowerCase();
+ const league=$("league").value;
+ const today=todayCT(),tomorrow=tomorrowCT();
+ return db.fixtures.filter(m=>{
+  const d=m.kickoff?chicagoDate(m.kickoff):"";
+  if(dayFilter==="today"&&d!==today)return false;
+  if(dayFilter==="tomorrow"&&d!==tomorrow)return false;
+  if(league&&String(m.league_id)!==league)return false;
+  const searchable=(m.home+" "+m.away+" "+
+   m.league+" "+m.country).toLowerCase();
+  return searchable.includes(q);
+ });
+}
+function renderFixtures(){
  if(!db)return;
- const query=$("search").value.toLowerCase();
- const metric=$("sort").value;
- const teams=db.teams.filter(t=>t.name.toLowerCase().includes(query))
-  .sort((a,b)=>(b.season[metric]??-1)-(a.season[metric]??-1));
- $("teamrows").innerHTML=teams.map(t=>{
-  const index=db.teams.indexOf(t);
-  const s=t.season;
-  return `<tr>
-   <td><button class="name" onclick="openTeam(${index})">${esc(t.name)}</button></td>
-   <td>${s.n}</td>
-   <td>${pct(s.scored_05)}</td>
-   <td>${pct(s.scored_15)}</td>
-   <td>${pct(s.first_half_scored)}</td>
-   <td>${num(s.goals_for)}</td>
-   <td>${num(s.xg_for)}</td>
-  </tr>`;
- }).join("");
+ const list=fixtureList();
+ $("count").textContent=list.length+
+  " fixtures displayed | Source window: "+
+  db.window_start+" to "+db.window_end;
+ $("matchlist").innerHTML=list.length?
+ list.map(m=>{
+  const c=coverage(m);
+  const index=db.fixtures.indexOf(m);
+  return `<div class="match">
+   <div>
+    <div class="league">${esc(m.country)} • ${esc(m.league)}</div>
+    <button onclick="openMatch(${index})">
+     ${esc(m.home)} vs ${esc(m.away)}
+    </button>
+    <div class="details">${esc(chicagoTime(m.kickoff))}
+     | ${esc(statusClass(m))}
+     ${m.home_goals!=null&&m.away_goals!=null?
+      ` | ${m.home_goals}–${m.away_goals}`:""}
+    </div>
+   </div>
+   <div><span class="pill ${c.toLowerCase()}">
+    ${c} DATA
+   </span></div>
+  </div>`;
+ }).join(""):
+ '<p>No fixtures found for these filters.</p>';
 }
-
-function summaryTable(t){
- const rows=[
-  ["Full season",t.season],
-  ["Last 5",t.last5],
-  ["Last 10",t.last10],
-  ["Home",t.home],
-  ["Away",t.away]
- ];
- return `<div class="tablewrap"><table>
- <thead><tr><th>Sample</th><th>N</th><th>1+ goals</th>
- <th>2+ goals</th><th>Conceded 1+</th><th>1H goal</th>
- <th>Goals</th><th>xG</th></tr></thead><tbody>
- ${rows.map(([label,s])=>`<tr>
- <td>${label}</td><td>${s.n}</td>
- <td>${pct(s.scored_05)}</td>
- <td>${pct(s.scored_15)}</td>
- <td>${pct(s.conceded_05)}</td>
- <td>${pct(s.first_half_scored)}</td>
- <td>${num(s.goals_for)}</td><td>${num(s.xg_for)}</td>
- </tr>`).join("")}</tbody></table></div>`;
+function teamCard(name,t){
+ if(!t){
+  return `<div class="panel">
+   <h3>${esc(name)}</h3>
+   <span class="pill missing">DATA MISSING</span>
+   <p>No verified current-season scoring sample loaded.</p>
+   </div>`;
+ }
+ const s=t.season;
+ return `<div class="panel">
+  <h3>${esc(name)}</h3>
+  <span class="pill partial">DOMESTIC HISTORY ONLY</span>
+  <p>Matches: ${s.n}</p>
+  <p>Scored 1+: <b>${pct(s.scored_05)}</b></p>
+  <p>Scored 2+: ${pct(s.scored_15)}</p>
+  <p>Conceded 1+: ${pct(s.conceded_05)}</p>
+  <p>First-half scored: ${pct(s.first_half_scored)}</p>
+  <p>Goals/game: ${num(s.goals_for)}</p>
+  <p>xG/game: ${num(s.xg_for)}</p>
+  <p>Last 5 scored 1+: ${pct(t.last5.scored_05)}</p>
+  </div>`;
 }
-
-function openTeam(index){
- const t=db.teams[index];
- $("modalTitle").textContent=t.name;
- const games=t.games.slice(0,10).map(g=>
-  `<div class="game">${esc(g.date)} |
-  ${esc(g.venue.toUpperCase())} vs ${esc(g.opponent)}
-  <strong>${g.gf}–${g.ga}</strong>
-  | xG ${num(g.xgf)} | Shots on target ${num(g.sot)}</div>`
- ).join("");
+function openMatch(index){
+ const m=db.fixtures[index];
+ const h=teamData(m.home),a=teamData(m.away);
+ const c=coverage(m);
+ $("modalTitle").textContent=m.home+" vs "+m.away;
  $("modalBody").innerHTML=`
- <p class="pill">Historical Scoring Intelligence</p>
- ${summaryTable(t)}
- <h3>Last 10 completed matches</h3>${games}
- <p class="note">Research candidate only. Current opponent,
- lineups, market price and calibrated probability not verified.</p>
- <button onclick="addReceipt(${index})">Save to Research Receipt</button>`;
+  <p>${esc(m.league)} | ${esc(chicagoTime(m.kickoff))}</p>
+  <p class="pill ${c.toLowerCase()}">${c} DATA</p>
+  ${teamCard(m.home,h)}
+  ${teamCard(m.away,a)}
+  <div class="notice">
+  <b>War Room decision: PASS.</b>
+  We have not verified complete current-season opponent
+  data, a calibrated matchup probability, or a current
+  market price. Domestic records may not reflect
+  international or cup competition performance.
+  </div>
+  <button onclick="saveMatch(${index})">
+  Save to Research Receipt
+  </button>`;
  $("overlay").style.display="flex";
 }
-
-function closeModal(){$("overlay").style.display="none"}
-
-function renderMatches(){
- $("matchrows").innerHTML=[...db.matches].reverse().map(m=>
-  `<div class="game"><small>${esc(m.date)}</small>
-  <div><strong>${esc(m.home)} ${m.hg}–${m.ag}
-  ${esc(m.away)}</strong></div>
-  <small>HT ${m.hthg??"—"}–${m.htag??"—"} |
-  xG ${num(m.hxg)}–${num(m.axg)}</small></div>`
- ).join("");
+function closeModal(){
+ $("overlay").style.display="none";
 }
-
-function addReceipt(index){
- const t=db.teams[index];
- if(!receipt.some(x=>x.name===t.name)){
+function saveMatch(index){
+ const m=db.fixtures[index];
+ if(!receipt.some(x=>x.id===m.id)){
   receipt.push({
-   name:t.name,
-   n:t.season.n,
-   rate:t.season.scored_05,
-   xg:t.season.xg_for,
-   season:db.season
+   id:m.id,
+   home:m.home,
+   away:m.away,
+   league:m.league,
+   kickoff:m.kickoff,
+   coverage:coverage(m),
+   decision:"PASS — no verified edge"
   });
  }
  closeModal();
- alert("Saved as research only — not a qualified wager.");
+ alert("Saved to research receipt.");
 }
-
 function renderReceipt(){
- $("receiptrows").innerHTML=receipt.length
- ?receipt.map(x=>`<div class="game orange">
- <strong>${esc(x.name)}</strong>
- <div>Over 0.5 team goals — historical study</div>
- <small>${esc(x.season)} | ${x.n} matches |
- Scored 1+: ${pct(x.rate)} | xG: ${num(x.xg)}</small>
- <div class="pill">UNVERIFIED — NO BETTING EDGE CONFIRMED</div>
- </div>`).join("")
- :'<p>No research candidates saved yet.</p>';
+ $("receiptlist").innerHTML=receipt.length?
+ receipt.map(x=>`<div class="panel">
+ <div class="league">${esc(x.league)}</div>
+ <b>${esc(x.home)} vs ${esc(x.away)}</b>
+ <p>${esc(chicagoTime(x.kickoff))}</p>
+ <span class="pill">${esc(x.coverage)} DATA</span>
+ <p>${esc(x.decision)}</p>
+ </div>`).join(""):
+ '<p>No matches saved yet.</p>';
 }
-
 function copyReceipt(){
- const content=receipt.map(x=>
-  `${x.name} | ${x.season} | ${x.n} games | `+
-  `Scored 1+: ${pct(x.rate)} | xG: ${num(x.xg)} | `+
-  `UNVERIFIED`
- ).join("\n");
- if(!content){alert("Receipt is empty.");return}
+ if(!receipt.length){
+  alert("Receipt is empty.");return;
+ }
+ const content="DOC'S GLOBAL SOCCER RESEARCH RECEIPT\n"+
+ receipt.map(x=>[
+  x.league,
+  x.home+" vs "+x.away,
+  chicagoTime(x.kickoff),
+  x.coverage+" DATA",
+  x.decision
+ ].join(" | ")).join("\n");
  if(navigator.clipboard?.writeText){
   navigator.clipboard.writeText(content).then(
    ()=>alert("Receipt copied."),
-   ()=>prompt("Copy this receipt:",content)
+   ()=>prompt("Copy receipt:",content)
   );
- }else prompt("Copy this receipt:",content);
+ }else prompt("Copy receipt:",content);
 }
-
 function clearReceipt(){
- if(confirm("Clear the research receipt?")){
+ if(confirm("Clear research receipt?")){
   receipt=[];
   renderReceipt();
+ }
+}
+function renderRankings(){
+ const teams=[...(db.domestic_teams||[])];
+ teams.sort((a,b)=>
+  (b.season.scored_05??0)-(a.season.scored_05??0)
+ );
+ $("rankrows").innerHTML=teams.map(t=>{
+  const s=t.season;
+  return `<tr>
+  <td>${esc(t.name)}</td>
+  <td>${s.n}</td>
+  <td>${pct(s.scored_05)}</td>
+  <td>${pct(s.scored_15)}</td>
+  <td>${pct(s.conceded_05)}</td>
+  <td>${num(s.goals_for)}</td>
+  <td>${num(s.xg_for)}</td>
+  </tr>`;
+ }).join("");
+}
+async function load(){
+ try{
+  const response=await fetch(
+   "data/global-soccer.json?v="+Date.now()
+  );
+  if(!response.ok)throw Error(
+   "Global data file missing. Run GitHub Actions."
+  );
+  db=await response.json();
+  if(!Array.isArray(db.fixtures))
+   throw Error("Invalid global fixture data");
+  $("updated").textContent=
+   "Updated "+chicagoTime(db.generated_utc)+
+   " | Worldwide fixture discovery";
+  const cards=[
+   ["Fixtures",db.fixture_count],
+   ["Competitions",db.league_count],
+   ["Domestic teams",(db.domestic_teams||[]).length],
+   ["Data window","7 days"]
+  ];
+  $("stats").innerHTML=cards.map(([label,value])=>
+   `<div class="stat">${esc(label)}
+   <strong>${esc(value)}</strong></div>`
+  ).join("");
+  const leagues=new Map();
+  db.fixtures.forEach(m=>{
+   leagues.set(String(m.league_id),
+    (m.country||"")+" — "+m.league);
+  });
+  [...leagues.entries()].sort((a,b)=>
+   a[1].localeCompare(b[1])
+  ).forEach(([id,name])=>{
+   const opt=document.createElement("option");
+   opt.value=id;
+   opt.textContent=name;
+   $("league").appendChild(opt);
+  });
+  renderFixtures();
+  renderRankings();
+ }catch(error){
+  $("updated").textContent="ERROR: "+error.message;
+  $("matchlist").textContent=
+   "Run Global Soccer War Room under GitHub Actions.";
  }
 }
 load();
