@@ -504,6 +504,98 @@ function historicalCard(name,t){
 }
 
 function openMatch(index){
+ 
+function evaluateScoring(name, domestic, historical) {
+  const current = domestic?.season;
+  const past = historical?.all;
+
+  // Current-season data takes priority.
+  if (
+    current &&
+    Number(current.n) >= 5 &&
+    Number.isFinite(Number(current.scored_05))
+  ) {
+    const games = Number(current.n);
+    const rate = Number(current.scored_05);
+    const scored = Math.round(games * rate);
+
+    if (rate >= 0.80) {
+      return {
+        status: "LEAN",
+        reason:
+          `${name}: scored in ${scored} of ${games} ` +
+          `current-season matches (${pct(rate)}). ` +
+          `Strong scoring candidate; market edge not verified.`
+      };
+    }
+
+    return {
+      status: "PASS",
+      reason:
+        `${name}: scored in ${scored} of ${games} ` +
+        `current-season matches (${pct(rate)}). ` +
+        `Below the 80% screening threshold.`
+    };
+  }
+
+  // Historical records are supporting evidence only.
+  if (
+    past &&
+    Number(past.games) >= 10 &&
+    Number.isFinite(Number(past.scored_05))
+  ) {
+    const games = Number(past.games);
+    const rate = Number(past.scored_05);
+    const scored = Math.round(games * rate);
+    const season = historical.season;
+
+    if (rate >= 0.80) {
+      return {
+        status: "LEAN",
+        reason:
+          `${name}: scored in ${scored} of ${games} ` +
+          `${season} historical matches (${pct(rate)}). ` +
+          `Current-season verification still needed.`
+      };
+    }
+
+    return {
+      status: "PASS",
+      reason:
+        `${name}: ${pct(rate)} scoring frequency ` +
+        `in ${season}. Historical screening threshold not met.`
+    };
+  }
+
+  return {
+    status: "PASS",
+    reason:
+      `${name}: insufficient verified scoring records.`
+  };
+}
+
+function matchupDecision(m) {
+  const home = evaluateScoring(
+    m.home,
+    domesticTeam(m.home),
+    historicalSummary(m.home_id)
+  );
+
+  const away = evaluateScoring(
+    m.away,
+    domesticTeam(m.away),
+    historicalSummary(m.away_id)
+  );
+
+  return {
+    home,
+    away,
+    summary:
+      `${home.status} — ${m.home} Over 0.5 goals | ` +
+      `${away.status} — ${m.away} Over 0.5 goals`
+  };
+}
+
  const m=db.fixtures[index];
 
  const homeDomestic=domesticTeam(m.home);
@@ -552,13 +644,33 @@ function openMatch(index){
    ${historicalCard(m.away,awayHistorical)}
   </div>
 
-  <div class="notice">
-   <b>War Room decision: PASS.</b>
-   Historical results alone do not establish a
-   current betting edge. We still need current
-   opponent-adjusted probabilities, verified
-   lineups, and market prices.
-  </div>
+  
+<div class="notice">
+  <b>WAR ROOM SCORING DECISION</b>
+
+  <p>
+    <strong>${esc(m.home)} — Over 0.5 Goals:</strong>
+    ${esc(matchupDecision(m).home.status)}
+  </p>
+  <p>
+    ${esc(matchupDecision(m).home.reason)}
+  </p>
+
+  <p>
+    <strong>${esc(m.away)} — Over 0.5 Goals:</strong>
+    ${esc(matchupDecision(m).away.status)}
+  </p>
+  <p>
+    ${esc(matchupDecision(m).away.reason)}
+  </p>
+
+  <p class="muted">
+    LEAN means further research is warranted.
+    Neither team is QUALIFIED until a current
+    matchup probability and market edge are verified.
+  </p>
+</div>
+
 
   <button onclick="saveMatch(${index})">
    Save to Research Receipt
@@ -583,7 +695,7 @@ function saveMatch(index){
    league:m.league,
    kickoff:m.kickoff,
    coverage:coverage(m),
-   decision:"PASS — no verified edge"
+   decision:matchupDecision(m).summary
   });
  }
 
