@@ -63,7 +63,7 @@ for name, path in endpoints:
     }
 
     if name == "status" and result.get("response"):
-        account = result["response"][0]
+        account = result["response"]
         record["subscription"] = account.get("subscription")
         record["requests"] = account.get("requests")
 
