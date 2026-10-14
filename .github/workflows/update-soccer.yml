@@ -1,0 +1,41 @@
+
+name: Update Soccer War Room
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 7,19 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: soccer-data-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Update soccer data
+        run: python scripts/update_soccer.py
+
+      - name: Save results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/soccer-current.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Refresh soccer intelligence"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
