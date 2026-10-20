@@ -551,7 +551,9 @@ function domesticTeam(name) {
 
   if (exact) return exact;
 
-  const key = normalized(name);
+  const aliases = {"slaviapraha":"slaviaprague","sparta praha":"spartaprague","fenerbahceistanbul":"fenerbahce"};
+  const originalKey = normalized(name);
+  const key = aliases[originalKey] || originalKey;
   if (key.length < 5) return null;
 
   const matches = teams.filter(
@@ -1585,6 +1587,17 @@ async function load() {
     }
 
     db = await fixtureResponse.json();
+    try {
+      const expandedResponse = await fetch("data/domestic-expanded.json?v=" + Date.now(),{cache:"no-store"});
+      if (expandedResponse.ok) {
+        const expanded = await expandedResponse.json();
+        if (Array.isArray(expanded.teams)) {
+          const existing = new Set((db.domestic_teams || []).map(t => normalized(t.name)));
+          db.domestic_teams = [...(db.domestic_teams || []),...expanded.teams.filter(t => !existing.has(normalized(t.name)))];
+          db.domestic_expanded_status = expanded.coverage_leagues + " leagues / " + expanded.coverage_teams + " teams (" + expanded.season + ")";
+        }
+      }
+    } catch (expandedError) { console.warn("Expanded domestic dataset unavailable",expandedError); }
 
     if (!Array.isArray(db.fixtures)) {
       throw Error("Invalid global fixture data.");
@@ -1606,7 +1619,7 @@ async function load() {
       : 0;
 
     $("updated").textContent =
-      "Updated " + chicagoTime(db.generated_utc) +
+      (db.domestic_expanded_status ? "Domestic coverage: " + db.domestic_expanded_status + " | " : "") + "Updated " + chicagoTime(db.generated_utc) +
       " | Fixture window: " +
       (db.window_start || "Unknown") + " to " +
       (db.window_end || "Unknown");
